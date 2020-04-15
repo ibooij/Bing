@@ -26,7 +26,7 @@ public:
     QGeoTiledMapReply *getTileImage(const QGeoTileSpec &spec);
 
 private:
-    QString _getURL(int type, int x, int y, int zoom);
+    QString createUrl(int type, int x, int y, int zoom);
 
 private slots:
     void _networkReplyError(QNetworkReply::NetworkError error);
@@ -43,6 +43,7 @@ private:
     int             _timeout;
     QNetworkReply*  _mapTilerReply;
     QByteArray      _userAgent;
+    QString _apiKey;
     QString         _language;
 
     // Bing version strings

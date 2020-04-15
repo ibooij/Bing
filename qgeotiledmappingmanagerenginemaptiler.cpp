@@ -31,34 +31,32 @@ QGeoTiledMappingManagerEngineMapTiler::QGeoTiledMappingManagerEngineMapTiler(con
 
     setCameraCapabilities(capabilities);
 
-    int tile = parameters.value(QStringLiteral("Bingmaps.maps.tilesize"), 256).toInt();
-
-    setTileSize(QSize(tile, tile));
+    setTileSize(QSize(512, 512));
 
     QList<QGeoMapType> types;
-#if QT_VERSION < QT_VERSION_CHECK(5,9,0)
-    types << QGeoMapType(QGeoMapType::StreetMap,"Bing Street Map", "Bing street map", false, false, 1);
-    types << QGeoMapType(QGeoMapType::SatelliteMapDay, "Bing Satellite Map", "Bing satellite map", false, false, 2);
-    types << QGeoMapType(QGeoMapType::HybridMap, "Bing Hybrid Map", "Bing hybrid map", false, false, 3);
-#elif QT_VERSION < QT_VERSION_CHECK(5,10,0)
-    types << QGeoMapType(QGeoMapType::StreetMap,"Bing Street Map", "Bing street map", false, false, 1, "bingmaps");
-    types << QGeoMapType(QGeoMapType::SatelliteMapDay, "Bing Satellite Map", "Bing satellite map", false, false, 2, "bingmaps");
-    types << QGeoMapType(QGeoMapType::HybridMap, "Bing Hybrid Map", "Bing hybrid map", false, false, 3, "bingmaps");
-#else
-    types << QGeoMapType(QGeoMapType::StreetMap,"Bing Street Map", "Bing street map", false, false, 1, "bingmaps", capabilities, parameters);
-    types << QGeoMapType(QGeoMapType::SatelliteMapDay, "Bing Satellite Map", "Bing satellite map", false, false, 2, "bingmaps", capabilities, parameters);
-    types << QGeoMapType(QGeoMapType::HybridMap, "Bing Hybrid Map", "Bing hybrid map", false, false, 3, "bingmaps", capabilities, parameters);
-#endif
+//#if QT_VERSION < QT_VERSION_CHECK(5,9,0)
+//    types << QGeoMapType(QGeoMapType::StreetMap,"Bing Street Map", "Bing street map", false, false, 1);
+//    types << QGeoMapType(QGeoMapType::SatelliteMapDay, "Bing Satellite Map", "Bing satellite map", false, false, 2);
+//    types << QGeoMapType(QGeoMapType::HybridMap, "Bing Hybrid Map", "Bing hybrid map", false, false, 3);
+//#elif QT_VERSION < QT_VERSION_CHECK(5,10,0)
+//    types << QGeoMapType(QGeoMapType::StreetMap,"Bing Street Map", "Bing street map", false, false, 1, "bingmaps");
+//    types << QGeoMapType(QGeoMapType::SatelliteMapDay, "Bing Satellite Map", "Bing satellite map", false, false, 2, "bingmaps");
+//    types << QGeoMapType(QGeoMapType::HybridMap, "Bing Hybrid Map", "Bing hybrid map", false, false, 3, "bingmaps");
+//#else
+    types << QGeoMapType(QGeoMapType::TerrainMap, "MapTiler Topo map", "MapTiler Topo map", false, false, 1, "maptiler", capabilities, parameters);
+//    types << QGeoMapType(QGeoMapType::SatelliteMapDay, "Bing Satellite Map", "Bing satellite map", false, false, 2, "bingmaps", capabilities, parameters);
+//    types << QGeoMapType(QGeoMapType::HybridMap, "Bing Hybrid Map", "Bing hybrid map", false, false, 3, "bingmaps", capabilities, parameters);
+//#endif
 
     setSupportedMapTypes(types);
 
     QGeoTileFetcherMapTiler *fetcher = new QGeoTileFetcherMapTiler(parameters, this, tileSize());
     setTileFetcher(fetcher);
 
-    if (parameters.contains(QStringLiteral("bingmaps.cachefolder")))
-        m_cacheDirectory = parameters.value(QStringLiteral("bingmaps.cachefolder")).toString().toLatin1();
+    if (parameters.contains(QStringLiteral("maptiler.cachefolder")))
+        m_cacheDirectory = parameters.value(QStringLiteral("maptiler.cachefolder")).toString().toLatin1();
     else
-        m_cacheDirectory = QAbstractGeoTileCache::baseCacheDirectory() + QLatin1String("bingmaps");
+        m_cacheDirectory = QAbstractGeoTileCache::baseCacheDirectory() + QLatin1String("maptiler");
 
     QAbstractGeoTileCache *tileCache = new QGeoFileTileCache(m_cacheDirectory);
     setTileCache(tileCache);
@@ -72,10 +70,10 @@ QGeoTiledMappingManagerEngineMapTiler::~QGeoTiledMappingManagerEngineMapTiler()
 
 void QGeoTiledMappingManagerEngineMapTiler::populateMapSchemes()
 {
-    m_mapSchemes[0] = QStringLiteral("roadmap");
-    m_mapSchemes[1] = QStringLiteral("roadmap");
-    m_mapSchemes[2] = QStringLiteral("satellite");
-    m_mapSchemes[3] = QStringLiteral("hybrid");
+    m_mapSchemes[0] = QStringLiteral("topo");
+//    m_mapSchemes[1] = QStringLiteral("roadmap");
+//    m_mapSchemes[2] = QStringLiteral("satellite");
+//    m_mapSchemes[3] = QStringLiteral("hybrid");
 }
 
 QString QGeoTiledMappingManagerEngineMapTiler::getScheme(int mapId)
