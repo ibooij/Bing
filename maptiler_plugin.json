@@ -1,6 +1,6 @@
 {
-    "Keys": ["bingmaps"],
-    "Provider": "bingmaps",
+    "Keys": ["maptiler"],
+    "Provider": "maptiler",
     "Version": 100,
     "Experimental": false,
     "Features": [

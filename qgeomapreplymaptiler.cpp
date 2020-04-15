@@ -1,11 +1,11 @@
-#include "qgeomapreplybingmaps.h"
+#include "qgeomapreplymaptiler.h"
 #include <QNetworkAccessManager>
 #include <QNetworkCacheMetaData>
 #include <QDateTime>
 
 QT_BEGIN_NAMESPACE
 
-QGeoMapReplyBingmaps::QGeoMapReplyBingmaps(QNetworkReply *reply, const QGeoTileSpec &spec, QObject *parent)
+QGeoMapReplyMapTiler::QGeoMapReplyMapTiler(QNetworkReply *reply, const QGeoTileSpec &spec, QObject *parent)
         : QGeoTiledMapReply(spec, parent),
         m_reply(reply)
 {
@@ -20,16 +20,16 @@ QGeoMapReplyBingmaps::QGeoMapReplyBingmaps(QNetworkReply *reply, const QGeoTileS
             SLOT(networkError(QNetworkReply::NetworkError)));
 }
 
-QGeoMapReplyBingmaps::~QGeoMapReplyBingmaps()
+QGeoMapReplyMapTiler::~QGeoMapReplyMapTiler()
 {
 }
 
-QNetworkReply *QGeoMapReplyBingmaps::networkReply() const
+QNetworkReply *QGeoMapReplyMapTiler::networkReply() const
 {
     return m_reply;
 }
 
-void QGeoMapReplyBingmaps::abort()
+void QGeoMapReplyMapTiler::abort()
 {
     if (!m_reply)
         return;
@@ -37,7 +37,7 @@ void QGeoMapReplyBingmaps::abort()
     m_reply->abort();
 }
 
-void QGeoMapReplyBingmaps::networkFinished()
+void QGeoMapReplyMapTiler::networkFinished()
 {
     if (!m_reply)
         return;
@@ -57,7 +57,7 @@ void QGeoMapReplyBingmaps::networkFinished()
     m_reply = 0;
 }
 
-void QGeoMapReplyBingmaps::networkError(QNetworkReply::NetworkError error)
+void QGeoMapReplyMapTiler::networkError(QNetworkReply::NetworkError error)
 {
     if (!m_reply)
         return;

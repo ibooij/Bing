@@ -1,15 +1,14 @@
-#ifndef QGEOSERVICEPROVIDERBINGMAPS_H
-#define QGEOSERVICEPROVIDERBINGMAPS_H
+#pragma once
 
 #include <QtCore/QObject>
 #include <QtLocation/QGeoServiceProviderFactory>
 
-class QGeoServiceProviderFactoryBingmaps: public QObject, public QGeoServiceProviderFactory
+class QGeoServiceProviderFactoryMapTiler: public QObject, public QGeoServiceProviderFactory
 {
     Q_OBJECT
     Q_INTERFACES(QGeoServiceProviderFactory)
     Q_PLUGIN_METADATA(IID "org.qt-project.qt.geoservice.serviceproviderfactory/5.0"
-                      FILE "bingmaps_plugin.json")
+                      FILE "maptiler_plugin.json")
 
 public:
     QGeoCodingManagerEngine *createGeocodingManagerEngine(const QVariantMap &parameters,
@@ -27,4 +26,3 @@ public:
 
 };
 
-#endif

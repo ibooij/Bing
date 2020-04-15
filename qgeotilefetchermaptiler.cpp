@@ -1,7 +1,7 @@
-#include "qgeotilefetcherbingmaps.h"
-#include "qgeomapreplybingmaps.h"
-#include "qgeotiledmapbingmaps.h"
-#include "qgeotiledmappingmanagerenginebingmaps.h"
+#include "qgeotilefetchermaptiler.h"
+#include "qgeomapreplymaptiler.h"
+#include "qgeotiledmapmaptiler.h"
+#include "qgeotiledmappingmanagerenginemaptiler.h"
 #include <QtLocation/private/qgeotilespec_p.h>
 
 #include <QDebug>
@@ -44,12 +44,12 @@ QString _tileXYToQuadKey(int tileX, int tileY, int levelOfDetail)
 }
 }
 
-QGeoTileFetcherBingmaps::QGeoTileFetcherBingmaps(const QVariantMap &parameters,
-                                                 QGeoTiledMappingManagerEngineBingmaps *engine,
+QGeoTileFetcherMapTiler::QGeoTileFetcherMapTiler(const QVariantMap &parameters,
+                                                 QGeoTiledMappingManagerEngineMapTiler *engine,
                                                  const QSize &tileSize)
     :   QGeoTileFetcher(engine),
       m_networkManager(new QNetworkAccessManager(this)),
-      m_engineBingmaps(engine),
+      m_engineMapTiler(engine),
       m_tileSize(tileSize)
 {
     if (parameters.contains(QStringLiteral("bingmaps.useragent")))
@@ -63,7 +63,7 @@ QGeoTileFetcherBingmaps::QGeoTileFetcherBingmaps(const QVariantMap &parameters,
     }
 
     // Google version strings
-    _versionBingMaps = "563";
+    _versionMapTiler = "563";
 
     netRequest.setRawHeader("Referrer", "https://www.bing.com/maps/");
     netRequest.setRawHeader("Accept", "*/*");
@@ -71,11 +71,11 @@ QGeoTileFetcherBingmaps::QGeoTileFetcherBingmaps(const QVariantMap &parameters,
 
 }
 
-QGeoTileFetcherBingmaps::~QGeoTileFetcherBingmaps()
+QGeoTileFetcherMapTiler::~QGeoTileFetcherMapTiler()
 {
 }
 
-QGeoTiledMapReply *QGeoTileFetcherBingmaps::getTileImage(const QGeoTileSpec &spec)
+QGeoTiledMapReply *QGeoTileFetcherMapTiler::getTileImage(const QGeoTileSpec &spec)
 {
     QString surl = _getURL(spec.mapId(), spec.x(), spec.y(), spec.zoom());
     QUrl url(surl);
@@ -84,50 +84,50 @@ QGeoTiledMapReply *QGeoTileFetcherBingmaps::getTileImage(const QGeoTileSpec &spe
 
     QNetworkReply *netReply = m_networkManager->get(netRequest);
 
-    QGeoTiledMapReply *mapReply = new QGeoMapReplyBingmaps(netReply, spec);
+    QGeoTiledMapReply *mapReply = new QGeoMapReplyMapTiler(netReply, spec);
 
     return mapReply;
 }
 
 
-QString QGeoTileFetcherBingmaps::_getURL(int type, int x, int y, int zoom)
+QString QGeoTileFetcherMapTiler::_getURL(int type, int x, int y, int zoom)
 {
     switch (type) {
     case 0:
     case 1:
     {
         const QString key = _tileXYToQuadKey(x, y, zoom);
-        return QString("http://ecn.t%1.tiles.virtualearth.net/tiles/r%2.png?g=%3&mkt=%4").arg(_getServerNum(x, y, 4)).arg(key).arg(_versionBingMaps).arg(_language);
+        return QString("http://ecn.t%1.tiles.virtualearth.net/tiles/r%2.png?g=%3&mkt=%4").arg(_getServerNum(x, y, 4)).arg(key).arg(_versionMapTiler).arg(_language);
     }
         break;
     case 2:
     {
         const QString key = _tileXYToQuadKey(x, y, zoom);
-        return QString("http://ecn.t%1.tiles.virtualearth.net/tiles/a%2.jpeg?g=%3&mkt=%4").arg(_getServerNum(x, y, 4)).arg(key).arg(_versionBingMaps).arg(_language);
+        return QString("http://ecn.t%1.tiles.virtualearth.net/tiles/a%2.jpeg?g=%3&mkt=%4").arg(_getServerNum(x, y, 4)).arg(key).arg(_versionMapTiler).arg(_language);
     }
         break;
     case 3:
     {
         const QString key = _tileXYToQuadKey(x, y, zoom);
-        return QString("http://ecn.t%1.tiles.virtualearth.net/tiles/h%2.jpeg?g=%3&mkt=%4").arg(_getServerNum(x, y, 4)).arg(key).arg(_versionBingMaps).arg(_language);
+        return QString("http://ecn.t%1.tiles.virtualearth.net/tiles/h%2.jpeg?g=%3&mkt=%4").arg(_getServerNum(x, y, 4)).arg(key).arg(_versionMapTiler).arg(_language);
     }
     }
     return "";
 }
 
-void QGeoTileFetcherBingmaps::_networkReplyError(QNetworkReply::NetworkError error)
+void QGeoTileFetcherMapTiler::_networkReplyError(QNetworkReply::NetworkError error)
 {
     qWarning() << "Could not connect to Bing maps. Error:" << error;
-    if(_bingReply)
+    if(_mapTilerReply)
     {
-        _bingReply->deleteLater();
-        _bingReply = NULL;
+        _mapTilerReply->deleteLater();
+        _mapTilerReply = NULL;
     }
 }
 
-void QGeoTileFetcherBingmaps::_replyDestroyed()
+void QGeoTileFetcherMapTiler::_replyDestroyed()
 {
-    _bingReply = NULL;
+    _mapTilerReply = NULL;
 }
 
 QT_END_NAMESPACE

@@ -1,5 +1,4 @@
-#ifndef QGEOMAPREPLYBINGMAPS_H
-#define QGEOMAPREPLYBINGMAPS_H
+#pragma once
 
 #include <QtNetwork/QNetworkReply>
 #include <QtLocation/private/qgeotilespec_p.h>
@@ -8,13 +7,13 @@
 
 QT_BEGIN_NAMESPACE
 
-class QGeoMapReplyBingmaps : public QGeoTiledMapReply
+class QGeoMapReplyMapTiler : public QGeoTiledMapReply
 {
     Q_OBJECT
 
 public:
-    QGeoMapReplyBingmaps(QNetworkReply *reply, const QGeoTileSpec &spec, QObject *parent = 0);
-    ~QGeoMapReplyBingmaps();
+    QGeoMapReplyMapTiler(QNetworkReply *reply, const QGeoTileSpec &spec, QObject *parent = 0);
+    ~QGeoMapReplyMapTiler();
 
     void abort();
 
@@ -29,5 +28,3 @@ private:
 };
 
 QT_END_NAMESPACE
-
-#endif

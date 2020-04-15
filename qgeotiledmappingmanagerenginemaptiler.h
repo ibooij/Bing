@@ -1,5 +1,4 @@
-#ifndef QGEOTILEDMAPPINGMANAGERENGINEBINGMAPS_H
-#define QGEOTILEDMAPPINGMANAGERENGINEBINGMAPS_H
+#pragma once
 
 #include "QtLocation/private/qgeotiledmappingmanagerengine_p.h"
 #include <QtPositioning/QGeoRectangle>
@@ -17,15 +16,15 @@ class QByteArray;
 class QGeoTileSpec;
 class QGeoNetworkAccessManager;
 
-class QGeoTiledMappingManagerEngineBingmaps : public QGeoTiledMappingManagerEngine
+class QGeoTiledMappingManagerEngineMapTiler : public QGeoTiledMappingManagerEngine
 {
     Q_OBJECT
 
 public:
-    QGeoTiledMappingManagerEngineBingmaps(const QVariantMap &parameters,
+    QGeoTiledMappingManagerEngineMapTiler(const QVariantMap &parameters,
                                        QGeoServiceProvider::Error *error,
                                        QString *errorString);
-    ~QGeoTiledMappingManagerEngineBingmaps();
+    ~QGeoTiledMappingManagerEngineMapTiler();
 
     virtual QGeoMap *createMap();
     QString getScheme(int mapId);
@@ -40,4 +39,3 @@ private:
 
 QT_END_NAMESPACE
 
-#endif // QGEOTILEDMAPPINGMANAGERENGINEBingmaps_H

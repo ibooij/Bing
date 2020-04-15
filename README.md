@@ -1,2 +1,2 @@
-# Bing
-Bing plugin for QtLocation module
+# MapTiler
+MapTiler plugin for QtLocation module

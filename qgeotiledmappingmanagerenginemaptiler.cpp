@@ -1,7 +1,7 @@
 ﻿#include "QtLocation/private/qgeocameracapabilities_p.h"
-#include "qgeotiledmappingmanagerenginebingmaps.h"
-#include "qgeotiledmapbingmaps.h"
-#include "qgeotilefetcherbingmaps.h"
+#include "qgeotiledmappingmanagerenginemaptiler.h"
+#include "qgeotiledmapmaptiler.h"
+#include "qgeotilefetchermaptiler.h"
 #include "QtLocation/private/qgeotilespec_p.h"
 #include "QtLocation/private/qgeofiletilecache_p.h"
 
@@ -16,7 +16,7 @@
 
 QT_BEGIN_NAMESPACE
 
-QGeoTiledMappingManagerEngineBingmaps::QGeoTiledMappingManagerEngineBingmaps(const QVariantMap &parameters,
+QGeoTiledMappingManagerEngineMapTiler::QGeoTiledMappingManagerEngineMapTiler(const QVariantMap &parameters,
     QGeoServiceProvider::Error *error,
     QString *errorString)
     : QGeoTiledMappingManagerEngine()
@@ -52,7 +52,7 @@ QGeoTiledMappingManagerEngineBingmaps::QGeoTiledMappingManagerEngineBingmaps(con
 
     setSupportedMapTypes(types);
 
-    QGeoTileFetcherBingmaps *fetcher = new QGeoTileFetcherBingmaps(parameters, this, tileSize());
+    QGeoTileFetcherMapTiler *fetcher = new QGeoTileFetcherMapTiler(parameters, this, tileSize());
     setTileFetcher(fetcher);
 
     if (parameters.contains(QStringLiteral("bingmaps.cachefolder")))
@@ -66,11 +66,11 @@ QGeoTiledMappingManagerEngineBingmaps::QGeoTiledMappingManagerEngineBingmaps(con
     populateMapSchemes();
 }
 
-QGeoTiledMappingManagerEngineBingmaps::~QGeoTiledMappingManagerEngineBingmaps()
+QGeoTiledMappingManagerEngineMapTiler::~QGeoTiledMappingManagerEngineMapTiler()
 {
 }
 
-void QGeoTiledMappingManagerEngineBingmaps::populateMapSchemes()
+void QGeoTiledMappingManagerEngineMapTiler::populateMapSchemes()
 {
     m_mapSchemes[0] = QStringLiteral("roadmap");
     m_mapSchemes[1] = QStringLiteral("roadmap");
@@ -78,14 +78,14 @@ void QGeoTiledMappingManagerEngineBingmaps::populateMapSchemes()
     m_mapSchemes[3] = QStringLiteral("hybrid");
 }
 
-QString QGeoTiledMappingManagerEngineBingmaps::getScheme(int mapId)
+QString QGeoTiledMappingManagerEngineMapTiler::getScheme(int mapId)
 {
     return m_mapSchemes[mapId];
 }
 
-QGeoMap *QGeoTiledMappingManagerEngineBingmaps::createMap()
+QGeoMap *QGeoTiledMappingManagerEngineMapTiler::createMap()
 {
-    return new QGeoTiledMapBingmaps(this);
+    return new QGeoTiledMapMapTiler(this);
 }
 
 QT_END_NAMESPACE
