@@ -28,6 +28,8 @@ QGeoTiledMappingManagerEngineMapTiler::QGeoTiledMappingManagerEngineMapTiler(con
 
     capabilities.setMinimumZoomLevel(0.0);
     capabilities.setMaximumZoomLevel(21.0);
+    capabilities.setMaximumTilt(75);
+    capabilities.setMinimumTilt(0);
 
     setCameraCapabilities(capabilities);
 
@@ -43,9 +45,9 @@ QGeoTiledMappingManagerEngineMapTiler::QGeoTiledMappingManagerEngineMapTiler(con
 //    types << QGeoMapType(QGeoMapType::SatelliteMapDay, "Bing Satellite Map", "Bing satellite map", false, false, 2, "bingmaps");
 //    types << QGeoMapType(QGeoMapType::HybridMap, "Bing Hybrid Map", "Bing hybrid map", false, false, 3, "bingmaps");
 //#else
-    types << QGeoMapType(QGeoMapType::TerrainMap, "MapTiler Topo map", "MapTiler Topo map", false, false, 1, "maptiler", capabilities, parameters);
-//    types << QGeoMapType(QGeoMapType::SatelliteMapDay, "Bing Satellite Map", "Bing satellite map", false, false, 2, "bingmaps", capabilities, parameters);
-//    types << QGeoMapType(QGeoMapType::HybridMap, "Bing Hybrid Map", "Bing hybrid map", false, false, 3, "bingmaps", capabilities, parameters);
+    types << QGeoMapType(QGeoMapType::TerrainMap, "topo", "MapTiler Topo map", false, false, 0, "maptiler", capabilities, parameters);
+    types << QGeoMapType(QGeoMapType::HybridMap, "hybrid", "MapTiler Hybrid map", false, false, 1, "maptiler", capabilities, parameters);
+    types << QGeoMapType(QGeoMapType::CustomMap, "positron", "MapTiler Positron map", false, false, 2, "maptiler", capabilities, parameters);
 //#endif
 
     setSupportedMapTypes(types);
@@ -71,9 +73,8 @@ QGeoTiledMappingManagerEngineMapTiler::~QGeoTiledMappingManagerEngineMapTiler()
 void QGeoTiledMappingManagerEngineMapTiler::populateMapSchemes()
 {
     m_mapSchemes[0] = QStringLiteral("topo");
-//    m_mapSchemes[1] = QStringLiteral("roadmap");
-//    m_mapSchemes[2] = QStringLiteral("satellite");
-//    m_mapSchemes[3] = QStringLiteral("hybrid");
+    m_mapSchemes[1] = QStringLiteral("hybrid");
+    m_mapSchemes[2] = QStringLiteral("positron");
 }
 
 QString QGeoTiledMappingManagerEngineMapTiler::getScheme(int mapId)

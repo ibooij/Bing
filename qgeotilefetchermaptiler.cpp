@@ -38,10 +38,7 @@ QGeoTileFetcherMapTiler::QGeoTileFetcherMapTiler(const QVariantMap &parameters,
         _language = langs[0];
     }
 
-    // Google version strings
-    _versionMapTiler = "563";
-
-    netRequest.setRawHeader("Referrer", "https://www.bing.com/maps/");
+    netRequest.setRawHeader("Referrer", "https://www.bigringvr.com");
     netRequest.setRawHeader("Accept", "*/*");
     netRequest.setRawHeader("User-Agent", _userAgent);
 
@@ -66,12 +63,29 @@ QGeoTiledMapReply *QGeoTileFetcherMapTiler::getTileImage(const QGeoTileSpec &spe
 }
 
 
-QString QGeoTileFetcherMapTiler::createUrl(int, int x, int y, int zoom)
+QString QGeoTileFetcherMapTiler::createUrl(int mapType, int x, int y, int zoom)
 {
-    return QString("https://api.maptiler.com/maps/topo/%1/%2/%3@2x.png?key=%4")
+    QString type;
+    QString extension = "png";
+
+    switch (mapType) {
+    case 0:
+        type = "topo";
+        break;
+    case 1:
+        type = "hybrid";
+        extension = "jpg";
+        break;
+    case 2:
+        type = "positron";
+        break;
+    }
+    return QString("https://api.maptiler.com/maps/%1/%2/%3/%4@2x.%5?key=%6")
+        .arg(type)
         .arg(zoom)
         .arg(x)
         .arg(y)
+        .arg(extension)
         .arg(_apiKey);
 }
 
