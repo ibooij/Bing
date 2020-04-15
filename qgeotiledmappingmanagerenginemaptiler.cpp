@@ -28,6 +28,7 @@ QGeoTiledMappingManagerEngineMapTiler::QGeoTiledMappingManagerEngineMapTiler(con
 
     capabilities.setMinimumZoomLevel(0.0);
     capabilities.setMaximumZoomLevel(21.0);
+    capabilities.setSupportsTilting(true);
     capabilities.setMaximumTilt(75);
     capabilities.setMinimumTilt(0);
 
